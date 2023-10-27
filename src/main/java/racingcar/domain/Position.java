@@ -2,26 +2,26 @@ package racingcar.domain;
 
 import java.util.Objects;
 
-public class CarName {
-    private final String name;
+public class Position {
+    private int Position;
 
-    public CarName(String name) {
-        if (name.length() > 5) {
+    public Position(int position) {
+        if (position < 0) {
             throw new IllegalArgumentException();
         }
-        this.name = name;
+        this.Position = position;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarName carName = (CarName) o;
-        return Objects.equals(name, carName.name);
+        Position position = (Position) o;
+        return Position == position.Position;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(Position);
     }
 }
