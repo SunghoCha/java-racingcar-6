@@ -3,13 +3,17 @@ package racingcar.domain;
 import java.util.Objects;
 
 public class Position {
-    private int Position;
+    private final int distance;
 
-    public Position(int position) {
-        if (position < 0) {
+    public Position(int distance) {
+        if (distance < 0) {
             throw new IllegalArgumentException();
         }
-        this.Position = position;
+        this.distance = distance;
+    }
+
+    public int getDistance() {
+        return distance;
     }
 
     @Override
@@ -17,11 +21,11 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Position == position.Position;
+        return distance == position.distance;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Position);
+        return Objects.hash(distance);
     }
 }
