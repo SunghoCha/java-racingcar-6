@@ -20,8 +20,8 @@ public class Car {
         return position;
     }
 
-    public void move() {
-        if (Randoms.pickNumberInRange(0, 9) >= 4) {
+    public void move(RaceStrategy strategy) {
+        if (strategy.movable()) {
             this.position = new Position(position.getDistance() + 1);
         }
     }
