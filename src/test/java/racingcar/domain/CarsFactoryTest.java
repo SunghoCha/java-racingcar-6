@@ -4,39 +4,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class CarsTest {
-    List<Car> carList = Arrays.asList(new Car(new CarName("pobi"), new Position(2))
-            , new Car(new CarName("woni"), new Position(3))
-            , new Car(new CarName("jun"), new Position(3)));
+public class CarsFactoryTest {
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2})
-    void Cars_race테스트(int index) {
+    @CsvSource({"0,pobi", "1,woni", "2,jun"})
+    void Cars_생성테스트(int index, String carName) {
         List<String> carNames = Arrays.asList("pobi", "woni", "jun");
         Cars cars = CarsFactory.createCars(carNames);
-        cars.race(() -> true);
-        assertThat(cars.getCars().get(index).getPosition()).isEqualTo(new Position(1));
+        assertThat(cars.getCars().get(index).getCarName().getName()).isEqualTo(carName);
     }
 
     @ParameterizedTest
-    @CsvSource({"0,woni", "1,jun"})
-    @DisplayName("경주 종료 후 우승자 찾기")
-    void findWinner_test(int index, String name) {
+    @CsvSource({"0,2", "1,3", "2,3"})
+    @DisplayName("경주 완료 상태인 Cars 생성")
+    void FinishedCar_생성테스트(int index, int distance) {
         List<Car> carList = Arrays.asList(new Car(new CarName("pobi"), new Position(2))
                 , new Car(new CarName("woni"), new Position(3))
                 , new Car(new CarName("jun"), new Position(3)));
         Cars finishedCars = CarsFactory.createFinishedCars(carList);
-        List<CarName> winners = finishedCars.findWinner();
-
-        assertThat(winners.size()).isEqualTo(2);
-        assertThat(winners.get(index)).isEqualTo(new CarName(name));
-
+        assertThat(finishedCars.getCars().get(index).getPosition()).isEqualTo(new Position(distance));
     }
 }
